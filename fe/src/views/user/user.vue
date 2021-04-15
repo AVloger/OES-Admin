@@ -1,14 +1,40 @@
 <template>
 	<v-app>
 		<div class="ma-2">
-			<h1 class="grey--text display-1">用户管理</h1>
+			<h1 class="blue--text display-1">用户管理</h1>
 		</div>
-		
+
 		<div class="ma-2">
 			<v-btn class="mr-2 info" @click="add">新增用户</v-btn>
 			<v-btn @click="getDataFromApi()" class="success">刷新</v-btn>
-			
+
 		</div>
+		<!-- 角色分配 -->
+		<v-dialog v-model="roleDialog" max-width="300">
+			<v-card>
+				<v-card-title>
+					用户角色分配
+				</v-card-title>
+				<v-card-text>
+					<v-list-item v-for="role in roles" :key="role.id">
+						<v-list-item-content>
+							<v-checkbox :key="role.id" :label="role.name" :value="role.id"
+								v-model="checkRoles">
+							</v-checkbox>
+						</v-list-item-content>
+					</v-list-item>
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn class="primary" @click="saveRoles">
+						保存
+					</v-btn>
+					<v-btn class="warning" @click="roleDialog=!roleDialog">
+						取消
+					</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
 
 
 		<!-- 删除确认框 -->
@@ -32,7 +58,7 @@
 			</v-card>
 		</v-dialog>
 
-<!-- 用户新增编辑 -->
+		<!-- 用户新增编辑 -->
 		<v-dialog v-model="userDialog" max-width="300">
 			<v-card>
 				<v-card-title>
@@ -60,25 +86,25 @@
 			<template v-slot:footer.page-text="items"> {{ items.pageStart }} - {{ items.pageStop }} 总共
 				{{ items.itemsLength }} 条数据 </template>
 
+
 			<template v-slot:item.actions="{ item }">
-				<v-btn x-small class="mr-2 primary">角色分配</v-btn>
-				<v-btn x-small  class="mr-2 info" @click="editUser(item)">编辑</v-btn>
+				<v-btn x-small class="mr-2 primary" @click="selectRoles(item)">角色分配</v-btn>
+				<v-btn x-small class="mr-2 info" @click="editUser(item)">编辑</v-btn>
 				<v-btn x-small class="mr-2 error" @click="deleteUser(item.ids)">删除</v-btn>
-<!-- 				<
-				<v-icon small class="mr-2" @click="editUser(item)">
-					mdi-pencil
-				</v-icon>
-				<v-icon small @click="deleteUser(item.id)">
-					mdi-delete
-				</v-icon> -->
 			</template>
 		</v-data-table>
+
+
 	</v-app>
 </template>
 <script>
 	export default {
 		data() {
 			return {
+				// 每个用户选择的角色列表
+				checkRoles: [1,2],
+				roles: [],
+				roleDialog: false,
 				// 确认框
 				confirmDialog: false,
 				confirmTitle: '确定删除?',
@@ -104,12 +130,13 @@
 				// 定义table 表头
 				headers: [{
 						text: 'id',
-						align: 'start',
+						align: 'center',
 						sortable: false,
 						value: 'id',
 					},
 					{
 						text: '姓名',
+						align: 'center',
 						value: 'name',
 						sortable: false,
 					},
@@ -120,16 +147,19 @@
 					// },
 					{
 						text: '联系方式',
+						align: 'center',
 						value: 'phone',
 						sortable: false,
 					},
 					{
 						text: '备注',
+						align: 'center',
 						value: 'remark',
 						sortable: false,
 					},
 					{
 						text: '操作',
+						align: 'center',
 						value: 'actions',
 						sortable: false,
 					}
@@ -137,21 +167,37 @@
 				],
 			}
 		},
-		
+
 		watch: {
 			options: {
 				handler() {
 					this.getDataFromApi()
+					console.log(this.checkRoles);
 				},
 				deep: true,
 			},
 		},
-		
-		// 初始化页面完成后，在对DOM节点进行相关操作
-		mounted() {
-			this.getDataFromApi()
+
+		// created:在模板渲染成html前调用，即通常初始化某些属性值，然后再渲染成视图。
+		// mounted:在模板渲染成html后调用，通常是初始化页面完成后，再对html的dom节点进行一些需要的操作。
+		created() {
+			let _this = this;
+			// 获取用户列表
+			_this.getDataFromApi(),
+				// 获取所有角色
+			_this.getRoles()
 		},
 		methods: {
+			// 获取角色列表
+			getRoles() {
+				let _this = this;
+				_this.$ajax.get(process.env.VUE_APP_SERVER + '/admin/role/list').then(res => {
+					if (res.data.code == '200') {
+						_this.roles = res.data.content;
+					}
+				})
+			},
+			// 获取用户列表
 			getDataFromApi() {
 				let _this = this;
 				_this.loading = true
@@ -174,8 +220,8 @@
 					_this.loading = false;
 				});
 			},
-			
-			
+
+
 			/**
 			 * 新增用户
 			 */
@@ -184,16 +230,6 @@
 				_this.user = {};
 				_this.userDialog = true;
 			},
-			
-			// addUser()  {
-			// 	_this.$ajax.post(process.env.VUE_APP_SERVER + '/admin/user/add', _this.user).then(res => {
-			// 		if(res.data.code == '200') {
-			// 			_this.userDialog = false;
-			// 			_this.getDataFromApi();
-			// 		}
-			// 	})
-			// },
-
 
 			/**
 			 * 编辑用户
@@ -220,7 +256,7 @@
 						_this.confirmDialog = false;
 						if (res.data.code == '200') {
 							_this.snackbarText = '删除成功';
-								_this.snackbar = true;
+							_this.snackbar = true;
 							_this.getDataFromApi();
 						}
 					})
@@ -247,6 +283,25 @@
 
 				});
 			},
+
+			/**
+			 * 角色分配
+			 */
+			selectRoles(item) {
+				let _this = this;
+				_this.roleDialog = true;
+				// 获取每个用户的角色
+				console.log(item.id);
+
+			},
+			/**
+			 * 分配角色
+			 */
+			saveRoles() {
+				let _this = this;
+				console.log(_this.checkRoles);
+				
+			}
 		},
 	}
 </script>

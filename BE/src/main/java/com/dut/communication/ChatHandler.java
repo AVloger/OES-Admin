@@ -2,6 +2,7 @@ package com.dut.communication;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
@@ -11,6 +12,9 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 
 import javax.xml.soap.Text;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 
 /**
  * 聊天处理器ChannelInboundHandlerAdapter
@@ -19,7 +23,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<Object> {
     // 用于记录所有客户端的channel
     private static ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     // 生成ip-channel绑定
-    private static IpMap ipMap = IpMap.getInstance();
+    public static IpMap ipMap = IpMap.getInstance();
 
     /**
      * 会话建立
@@ -34,7 +38,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<Object> {
 
         String ip = String.valueOf(ctx.channel().remoteAddress());
         this.ipMap.addIp(ip,ctx.channel());
-        System.out.println(this.ipMap   );
+        System.out.println(this.ipMap);
 //        ctx.channel().writeAndFlush(new TextWebSocketFrame("success"));
     }
 
@@ -155,7 +159,14 @@ public class ChatHandler extends SimpleChannelInboundHandler<Object> {
             }
         } else if (request instanceof BinaryWebSocketFrame) {
             // 二进制文件
-            System.out.println(request);
+            BinaryWebSocketFrame img= (BinaryWebSocketFrame) request;
+            System.out.println(img);
+            ByteBuf byteBuf=img.content();
+            try(FileOutputStream outputStream=new FileOutputStream("D:\\result")){
+                byteBuf.readBytes(outputStream,byteBuf.capacity());
+            }
+            byteBuf.clear();
+
         } else {
             // 其他请求
             System.out.println(request);

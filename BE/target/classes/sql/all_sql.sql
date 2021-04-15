@@ -19,7 +19,7 @@ insert into user (name, password, phone, remark) values ('reviewer2', 'reviewer2
 create table role (
     id integer primary key autoincrement, -- id
     name text not null, -- 角色名
-    description text not null -- 角色描述
+    description text  -- 角色描述
 );
 insert into role (name) values ('超级管理员');
 insert into role (name) values ('案件管理员');

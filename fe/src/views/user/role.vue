@@ -1,6 +1,6 @@
 <template>
   <v-app class="ma-2">
-    <div class="display-1 grey--text">角色管理</div>
+    <div class="display-1 blue--text">角色管理</div>
  <!-- 
     <v-dialog v-model="roleDialog" persistent max-width="300">
       <v-card>
@@ -38,16 +38,16 @@
                 <th class="text-center">序号</th>
                 <th class="text-center">角色</th>
                 <th class="text-center">描述</th>
-                <th class="text-center">操作</th>
+                <!-- <th class="text-center">操作</th> -->
               </tr>
             </thead>
             <tbody>
               <tr v-for="role in roles">
                 <td class="text-center">{{ role.id }}</td>
                 <td class="text-center">{{ role.name }}</td>
-                <td class="text-center">{{ role.dept }}</td>
+                <td class="text-center">{{ role.description }}</td>
 
-                <td>
+               <td>
                   <v-row class="justify-space-around">
                     <v-btn small color="primary" @click="editrole(role)">
                       <v-icon>edit</v-icon>
@@ -119,26 +119,6 @@ export default {
       ],
       role: {},
       roles: [
-        {
-          id: 1,
-          name: "超级管理员",
-          dept: "一切权限",
-        },
-        {
-          id: 2,
-          name: "案件管理员",
-          dept: "",
-        },
-        {
-          id: 3,
-          name: "调查员",
-          dept: "对权限范围内的目标计算机执行取证任务",
-        },
-        {
-          id: 4,
-          name: "审阅员",
-          dept: "只允许查看权限范围内的取证结果",
-        },
       ],
       roleDialog: false,
     };
@@ -154,6 +134,14 @@ export default {
      */
     listroles() {
       let _this = this;
+			Loading.show();
+			_this.$ajax.get(process.env.VUE_APP_SERVER+'/admin/role/list').then(res =>{
+				Loading.hide(function() {
+					if (res.data.code == '200') {
+						_this.roles = res.data.content;
+					}
+				})
+			})
     },
     /**
      * 编辑用户

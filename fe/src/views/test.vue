@@ -95,7 +95,7 @@
 			 * 开启任务
 			 */
 			start() {
-				var list = [1,2,3];
+				var list = [0];
 				var list_str = JSON.stringify(list)
 				
 				let _this = this;

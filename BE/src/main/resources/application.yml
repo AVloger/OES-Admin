@@ -29,7 +29,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: org.sqlite.JDBC
-    url: jdbc:sqlite:D:/OES-ADMIN/project.db
+    url: jdbc:sqlite:D:/OES-Admin/project.db
     # 初始连接数
     initialSize: 5
     # 最小连接池数量
