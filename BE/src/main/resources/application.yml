@@ -1,0 +1,56 @@
+# 端口
+server:
+  port: 9000
+#  servlet:
+#    session:
+#      # session过期时间
+#      timeout: PT2M
+
+
+# 项目相关配置
+oes:
+  name: ose
+  # 验证码类型 数学验证码
+  kaptchaType: math
+
+# MyBatis配置
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: com.dut.entity
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mapper/*.xml
+  # 打印SQL日志
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+# 数据源配置
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: org.sqlite.JDBC
+    url: jdbc:sqlite:D:/OES-ADMIN/project.db
+    # 初始连接数
+    initialSize: 5
+    # 最小连接池数量
+    minIdle: 10
+    # 最大连接池数量
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    testWhileIdle: true
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 300000
+    # 配置一个连接在池中最大生存的时间，单位是毫秒
+    maxEvictableIdleTimeMillis: 900000
+    filters: stat,wall,log4j
+    logSlowSql: true
+
+#    MySQL
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://192.168.56.101:3306/ose?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+#    username: root
+#    password: 123456
