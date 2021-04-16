@@ -101,8 +101,9 @@
 	export default {
 		data() {
 			return {
+				userId: 0,
 				// 每个用户选择的角色列表
-				checkRoles: [1,2],
+				checkRoles: [],
 				roles: [],
 				roleDialog: false,
 				// 确认框
@@ -289,9 +290,13 @@
 			 */
 			selectRoles(item) {
 				let _this = this;
+				_this.userId = item.id;// 保存当前用户id
 				_this.roleDialog = true;
 				// 获取每个用户的角色
-				console.log(item.id);
+				_this.$ajax.get(process.env.VUE_APP_SERVER + '/admin/userRole/roleList/'+item.id).then(res=>{
+					_this.checkRoles = res.data.content;
+				});
+				
 
 			},
 			/**
@@ -300,7 +305,16 @@
 			saveRoles() {
 				let _this = this;
 				console.log(_this.checkRoles);
+				_this.$ajax.post(process.env.VUE_APP_SERVER + '/admin/userRole/saveRoles', {
+					userId: _this.userId,
+					roleList: _this.checkRoles
+				}).then(res => {
+					if (res.data.code == '200') {
+						_this.roleDialog = false;
+					}
+				}) 
 				
+
 			}
 		},
 	}
