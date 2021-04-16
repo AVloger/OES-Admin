@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.dut.entity.PC">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
-    <result column="pc_name" jdbcType="VARCHAR" property="pcName" />
     <result column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="account_name" jdbcType="VARCHAR" property="accountName" />
     <result column="account_password" jdbcType="VARCHAR" property="accountPassword" />
@@ -71,8 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, ip, pc_name, group_id, account_name, account_password, `status`, client_flag, 
-    manage_flag
+    id, ip, group_id, account_name, account_password, `status`, client_flag, manage_flag
   </sql>
   <select id="selectByExample" parameterType="com.dut.entity.PCExample" resultMap="BaseResultMap">
     select
@@ -105,14 +103,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.dut.entity.PC">
-    insert into pc (id, ip, pc_name, 
-      group_id, account_name, account_password, 
-      `status`, client_flag, manage_flag
-      )
-    values (#{id,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{pcName,jdbcType=VARCHAR}, 
-      #{groupId,jdbcType=INTEGER}, #{accountName,jdbcType=VARCHAR}, #{accountPassword,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{clientFlag,jdbcType=INTEGER}, #{manageFlag,jdbcType=INTEGER}
-      )
+    insert into pc (id, ip, group_id, 
+      account_name, account_password, `status`, 
+      client_flag, manage_flag)
+    values (#{id,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{groupId,jdbcType=INTEGER}, 
+      #{accountName,jdbcType=VARCHAR}, #{accountPassword,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{clientFlag,jdbcType=INTEGER}, #{manageFlag,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.dut.entity.PC">
     insert into pc
@@ -122,9 +118,6 @@
       </if>
       <if test="ip != null">
         ip,
-      </if>
-      <if test="pcName != null">
-        pc_name,
       </if>
       <if test="groupId != null">
         group_id,
@@ -151,9 +144,6 @@
       </if>
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
-      </if>
-      <if test="pcName != null">
-        #{pcName,jdbcType=VARCHAR},
       </if>
       <if test="groupId != null">
         #{groupId,jdbcType=INTEGER},
@@ -190,9 +180,6 @@
       <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
-      <if test="record.pcName != null">
-        pc_name = #{record.pcName,jdbcType=VARCHAR},
-      </if>
       <if test="record.groupId != null">
         group_id = #{record.groupId,jdbcType=INTEGER},
       </if>
@@ -220,7 +207,6 @@
     update pc
     set id = #{record.id,jdbcType=INTEGER},
       ip = #{record.ip,jdbcType=VARCHAR},
-      pc_name = #{record.pcName,jdbcType=VARCHAR},
       group_id = #{record.groupId,jdbcType=INTEGER},
       account_name = #{record.accountName,jdbcType=VARCHAR},
       account_password = #{record.accountPassword,jdbcType=VARCHAR},
@@ -236,9 +222,6 @@
     <set>
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
-      </if>
-      <if test="pcName != null">
-        pc_name = #{pcName,jdbcType=VARCHAR},
       </if>
       <if test="groupId != null">
         group_id = #{groupId,jdbcType=INTEGER},
@@ -264,7 +247,6 @@
   <update id="updateByPrimaryKey" parameterType="com.dut.entity.PC">
     update pc
     set ip = #{ip,jdbcType=VARCHAR},
-      pc_name = #{pcName,jdbcType=VARCHAR},
       group_id = #{groupId,jdbcType=INTEGER},
       account_name = #{accountName,jdbcType=VARCHAR},
       account_password = #{accountPassword,jdbcType=VARCHAR},

@@ -10,6 +10,6 @@ Loading = {
 			function() {
 				$("body").mLoading("hide");
 				callback();
-			}, 1000);
+			}, 200);
 	}
 };

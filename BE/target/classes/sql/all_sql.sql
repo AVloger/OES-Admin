@@ -71,8 +71,17 @@ create table sys_case (
     create_time text, -- 案件创建时间
     type_id integer, -- 案件类型id
     total_time datetime-- 案件历时
-
 ) ;
+-- 案件相关配置表
+create table case_pc_plugin (
+    id integer primary key autoincrement , -- id
+    case_id integer, -- 案件id
+    pc_id integer, -- 计算机id
+    plugin_id integer, -- 插件id
+    role_id integer, -- 调查员|审阅员
+    user_id integer -- 用户id
+);
+
 -- 案件类型表
 create table case_type (
     id integer primary key autoincrement, -- 案件类型id
@@ -92,6 +101,19 @@ insert into case_type (name) values ('日常检查');
 create table sys_task (
     id integer primary key autoincrement , -- 取证任务id
     name text, -- 取证任务名字
+    create_by integer, -- 创建人id
+    role_id integer --创建人角色
+);
+
+-- 任务相关配置表
+create table task_config (
+    id integer primary key autoincrement , -- id
+    task_id integer, -- 取证任务id
+    pc_id integer, -- 计算机id
+    plugin_id integer, -- 插件id
+    role_id integer, -- 角色id
+    user_id integer, -- 用户id
+    file text -- 取证结果 服务器上地址
 );
 
 -- 插件表

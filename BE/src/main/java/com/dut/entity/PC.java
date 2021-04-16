@@ -5,8 +5,6 @@ public class PC {
 
     private String ip;
 
-    private String pcName;
-
     private Integer groupId;
 
     private String accountName;
@@ -33,14 +31,6 @@ public class PC {
 
     public void setIp(String ip) {
         this.ip = ip;
-    }
-
-    public String getPcName() {
-        return pcName;
-    }
-
-    public void setPcName(String pcName) {
-        this.pcName = pcName;
     }
 
     public Integer getGroupId() {
@@ -99,7 +89,6 @@ public class PC {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", ip=").append(ip);
-        sb.append(", pcName=").append(pcName);
         sb.append(", groupId=").append(groupId);
         sb.append(", accountName=").append(accountName);
         sb.append(", accountPassword=").append(accountPassword);

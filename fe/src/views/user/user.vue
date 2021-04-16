@@ -18,8 +18,7 @@
 				<v-card-text>
 					<v-list-item v-for="role in roles" :key="role.id">
 						<v-list-item-content>
-							<v-checkbox :key="role.id" :label="role.name" :value="role.id"
-								v-model="checkRoles">
+							<v-checkbox :key="role.id" :label="role.name" :value="role.id" v-model="checkRoles">
 							</v-checkbox>
 						</v-list-item-content>
 					</v-list-item>
@@ -186,7 +185,7 @@
 			// 获取用户列表
 			_this.getDataFromApi(),
 				// 获取所有角色
-			_this.getRoles()
+				_this.getRoles()
 		},
 		methods: {
 			// 获取角色列表
@@ -254,13 +253,17 @@
 				Loading.show();
 				_this.$ajax.delete(process.env.VUE_APP_SERVER + '/admin/user/delete/' + _this.deleteUserId).then(res => {
 					Loading.hide(function() {
-						_this.confirmDialog = false;
+
 						if (res.data.code == '200') {
-							_this.snackbarText = '删除成功';
-							_this.snackbar = true;
+							_this.confirmDialog = false;
 							_this.getDataFromApi();
 						}
-					})
+					});
+
+					setTimeout(function() {
+						_this.snackbarText = '删除成功';
+						_this.snackbar = true;
+					}, 500);
 				})
 			},
 
@@ -275,12 +278,14 @@
 					Loading.hide(function() {
 						if (res.data.code == '200') {
 							_this.userDialog = false;
-							_this.snackbarText = '保存成功'
-							_this.snackbar = true;
 							_this.getDataFromApi();
 						}
 						// 出现异常 。。。
 					});
+					setTimeout(function() {
+						_this.snackbarText = '保存成功'
+						_this.snackbar = true;
+					}, 500);
 
 				});
 			},
@@ -290,13 +295,13 @@
 			 */
 			selectRoles(item) {
 				let _this = this;
-				_this.userId = item.id;// 保存当前用户id
+				_this.userId = item.id; // 保存当前用户id
 				_this.roleDialog = true;
 				// 获取每个用户的角色
-				_this.$ajax.get(process.env.VUE_APP_SERVER + '/admin/userRole/roleList/'+item.id).then(res=>{
+				_this.$ajax.get(process.env.VUE_APP_SERVER + '/admin/userRole/roleList/' + item.id).then(res => {
 					_this.checkRoles = res.data.content;
 				});
-				
+
 
 			},
 			/**
@@ -304,16 +309,23 @@
 			 */
 			saveRoles() {
 				let _this = this;
-				console.log(_this.checkRoles);
+				Loading.show();
 				_this.$ajax.post(process.env.VUE_APP_SERVER + '/admin/userRole/saveRoles', {
 					userId: _this.userId,
 					roleList: _this.checkRoles
 				}).then(res => {
-					if (res.data.code == '200') {
-						_this.roleDialog = false;
-					}
-				}) 
-				
+					Loading.hide(function() {
+						if (res.data.code == '200') {
+							_this.roleDialog = false;
+							_this.getDataFromApi();
+						}
+					});
+					setTimeout(function() {
+						_this.snackbar = true;
+						_this.snackbarText = '保存成功';
+					}, 500);
+				})
+
 
 			}
 		},

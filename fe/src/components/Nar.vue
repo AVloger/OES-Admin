@@ -50,12 +50,12 @@
 							角色管理
 						</v-list-item-content>
 					</v-list-item>
-
+<!-- 
 					<v-list-item to="/system/menu">
 						<v-list-item-content>
 							资源管理
 						</v-list-item-content>
-					</v-list-item>
+					</v-list-item> -->
 
 
 				</v-list-group>
