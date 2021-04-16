@@ -49,6 +49,7 @@ create table pc (
     group_id integer not null default 1 , -- 计算机分组 默认为0
     account_name text, -- 远程账号用户名
     account_password  text, -- 远程账号密码
+    status text,
     client_flag integer not null default 0, -- 是否安装了审查客户端 0:未安装 1：已安装
     manage_flag integer not null default 0 -- 是否已经添加了管理 0：没有被添加管理 1： 已经被添加了管理
 );

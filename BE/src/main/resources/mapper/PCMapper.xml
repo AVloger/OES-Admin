@@ -8,6 +8,7 @@
     <result column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="account_name" jdbcType="VARCHAR" property="accountName" />
     <result column="account_password" jdbcType="VARCHAR" property="accountPassword" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="client_flag" jdbcType="INTEGER" property="clientFlag" />
     <result column="manage_flag" jdbcType="INTEGER" property="manageFlag" />
   </resultMap>
@@ -70,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, ip, pc_name, group_id, account_name, account_password, client_flag, manage_flag
+    id, ip, pc_name, group_id, account_name, account_password, `status`, client_flag, 
+    manage_flag
   </sql>
   <select id="selectByExample" parameterType="com.dut.entity.PCExample" resultMap="BaseResultMap">
     select
@@ -105,10 +107,12 @@
   <insert id="insert" parameterType="com.dut.entity.PC">
     insert into pc (id, ip, pc_name, 
       group_id, account_name, account_password, 
-      client_flag, manage_flag)
+      `status`, client_flag, manage_flag
+      )
     values (#{id,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{pcName,jdbcType=VARCHAR}, 
       #{groupId,jdbcType=INTEGER}, #{accountName,jdbcType=VARCHAR}, #{accountPassword,jdbcType=VARCHAR}, 
-      #{clientFlag,jdbcType=INTEGER}, #{manageFlag,jdbcType=INTEGER})
+      #{status,jdbcType=VARCHAR}, #{clientFlag,jdbcType=INTEGER}, #{manageFlag,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.dut.entity.PC">
     insert into pc
@@ -130,6 +134,9 @@
       </if>
       <if test="accountPassword != null">
         account_password,
+      </if>
+      <if test="status != null">
+        `status`,
       </if>
       <if test="clientFlag != null">
         client_flag,
@@ -156,6 +163,9 @@
       </if>
       <if test="accountPassword != null">
         #{accountPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
       </if>
       <if test="clientFlag != null">
         #{clientFlag,jdbcType=INTEGER},
@@ -192,6 +202,9 @@
       <if test="record.accountPassword != null">
         account_password = #{record.accountPassword,jdbcType=VARCHAR},
       </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=VARCHAR},
+      </if>
       <if test="record.clientFlag != null">
         client_flag = #{record.clientFlag,jdbcType=INTEGER},
       </if>
@@ -211,6 +224,7 @@
       group_id = #{record.groupId,jdbcType=INTEGER},
       account_name = #{record.accountName,jdbcType=VARCHAR},
       account_password = #{record.accountPassword,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=VARCHAR},
       client_flag = #{record.clientFlag,jdbcType=INTEGER},
       manage_flag = #{record.manageFlag,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -235,6 +249,9 @@
       <if test="accountPassword != null">
         account_password = #{accountPassword,jdbcType=VARCHAR},
       </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
       <if test="clientFlag != null">
         client_flag = #{clientFlag,jdbcType=INTEGER},
       </if>
@@ -251,6 +268,7 @@
       group_id = #{groupId,jdbcType=INTEGER},
       account_name = #{accountName,jdbcType=VARCHAR},
       account_password = #{accountPassword,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=VARCHAR},
       client_flag = #{clientFlag,jdbcType=INTEGER},
       manage_flag = #{manageFlag,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

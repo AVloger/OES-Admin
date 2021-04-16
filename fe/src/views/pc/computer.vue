@@ -103,11 +103,11 @@
 						</v-icon>
 	
 					</template>
-					<template v-slot:no-data>
+<!-- 					<template v-slot:no-data>
 						<v-btn color="primary" @click="initialize">
 							Reset
 						</v-btn>
-					</template>
+					</template> -->
 
 				</v-data-table>
 			</v-col>
@@ -122,6 +122,7 @@
 			return {
 				radioGroup: 1,
 				pcDialog: false,
+				pcGroup: 0,
 				targetIpList: [
 					{
 						key: 1,
@@ -156,40 +157,7 @@
 						value: '否'
 					}
 				],
-				pcs: [{
-						id: 1,
-						name: '联想拯救者R7000',
-						remarks: '电脑1',
-						ip: '1.1.1.2',
-						group: 1,
-						status: '在线'
-					},
-					{
-						id: 2,
-						name: '联想拯救者R7000P',
-						remarks: '电脑2',
-						ip: '1.1.1.3',
-						group: 1,
-						status: '离线'
-					},
-
-					{
-						id: 3,
-						name: '联想拯救者Y9000',
-						remarks: '电脑3',
-						ip: '1.1.1.5',
-						group: 1,
-						status: '等待卸载'
-					},
-					{
-						id: 4,
-						name: '外星人',
-						remarks: '电脑4',
-						ip: '1.1.1.4',
-						group: 1,
-						status: '正在卸载'
-					},
-
+				pcs: [
 
 				],
 
@@ -202,12 +170,8 @@
 						value: 'id',
 					},
 					{
-						text: '原始计算机名',
-						value: 'name'
-					},
-					{
-						text: '备注',
-						value: 'remarks'
+						text: '计算机名',
+						value: 'pcName'
 					},
 					{
 						text: 'ip',
@@ -215,7 +179,7 @@
 					},
 					{
 						text: '组别',
-						value: 'group'
+						value: 'groupId'
 					},
 					{
 						text: '状态',
@@ -228,6 +192,17 @@
 				],
 
 			}
+		},
+		
+		created() {
+			// 从session-storage中获取组别
+			let _this = this;
+			let data = SessionStorage.get(SESSION_KEY_GROUP) || {};
+			if(Tool.isEmpty(data)) {
+				_this.$router.push('/welcome');
+			}
+			_this.pcGroup = data;
+			_this.getComputers();
 		},
 
 
@@ -261,6 +236,21 @@
 			toPcDetail(item) {
 				let _this = this;
 				_this.$router.push('/system/pcdetail');
+			},
+			
+			/**
+			 * 获取计算机列表
+			 */
+			getComputers() {
+				let _this = this;
+				Loading.show();
+				_this.$ajax.get(process.env.VUE_APP_SERVER + '/admin/pc/list/'+_this.pcGroup.id).then(res=>{
+					Loading.hide(function() {
+						if(res.data.code == '200'){
+							_this.pcs = res.data.content;
+						}
+					});
+				})
 			}
 		},
 

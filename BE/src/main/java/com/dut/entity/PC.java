@@ -13,6 +13,8 @@ public class PC {
 
     private String accountPassword;
 
+    private String status;
+
     private Integer clientFlag;
 
     private Integer manageFlag;
@@ -65,6 +67,14 @@ public class PC {
         this.accountPassword = accountPassword;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public Integer getClientFlag() {
         return clientFlag;
     }
@@ -93,6 +103,7 @@ public class PC {
         sb.append(", groupId=").append(groupId);
         sb.append(", accountName=").append(accountName);
         sb.append(", accountPassword=").append(accountPassword);
+        sb.append(", status=").append(status);
         sb.append(", clientFlag=").append(clientFlag);
         sb.append(", manageFlag=").append(manageFlag);
         sb.append("]");
