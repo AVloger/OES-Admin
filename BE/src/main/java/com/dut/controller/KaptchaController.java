@@ -52,6 +52,8 @@ public class KaptchaController {
 //            System.out.println(kaptchaStr);
             code = kaptchaText.substring(kaptchaText.indexOf("@")+1);
             image = kaptchaProducerMath.createImage(kaptchaStr);
+            // 将生成的验证码答案写入session中
+            request.getSession().setAttribute("kaptcha", code);
             ImageIO.write(image, "jpg", jpegOutputStream);
         } else if ("char".equals(kaptchaType)){
             // 字符验证码

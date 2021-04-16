@@ -46,12 +46,21 @@ create table pc (
     id integer primary key autoincrement, -- id
     ip text not null, -- ip
     pc_name text, -- 计算机名
-    pc_group integer not null default 0 , -- 计算机分组 默认为0
+    group_id integer not null default 1 , -- 计算机分组 默认为0
     account_name text, -- 远程账号用户名
     account_password  text, -- 远程账号密码
     client_flag integer not null default 0, -- 是否安装了审查客户端 0:未安装 1：已安装
     manage_flag integer not null default 0 -- 是否已经添加了管理 0：没有被添加管理 1： 已经被添加了管理
 );
+
+insert into pc (ip, group_id) values ('127.0.0.1', 1);
+insert into pc (ip, group_id) values ('10.8.0123.0', 1);
+-- 计算机组
+create table pc_group (
+    id integer primary key autoincrement, -- id
+    name text -- 计算机组别
+);
+insert into pc_group (name) values ("默认分组");
 
 
 -- 案件表
@@ -60,7 +69,7 @@ create table sys_case (
     create_by integer, -- 案件创建人id | 超级管理员id
     create_time text, -- 案件创建时间
     type_id integer, -- 案件类型id
-    total_time datetime, -- 案件历时
+    total_time datetime-- 案件历时
 
 ) ;
 -- 案件类型表

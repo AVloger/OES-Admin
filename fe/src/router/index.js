@@ -3,12 +3,15 @@ import VueRouter from 'vue-router'
 import Login from '@/views/login.vue'
 import Welcome from '@/views/welcome.vue'
 import Admin from '@/views/admin.vue'
+
 import User from '@/views/user/user.vue'
 import Role from '@/views/user/role.vue'
 import Menu from '@/views/user/menu.vue'
-import Group from '@/views/group.vue'
-import Computer from '@/views/computer.vue'
+
+import Group from '@/views/pc/group.vue'
+import Computer from '@/views/pc/computer.vue'
 import PcDetail from '@/views/pcdetail.vue'
+
 import Case from '@/views/case.vue'
 import CaseDetail from '@/views/casedetail.vue'
 import Swagger from '@/views/swagger.vue'

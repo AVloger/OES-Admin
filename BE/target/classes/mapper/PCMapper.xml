@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dut.mapper.PCMapper">
+  <resultMap id="BaseResultMap" type="com.dut.entity.PC">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="pc_name" jdbcType="VARCHAR" property="pcName" />
+    <result column="group_id" jdbcType="INTEGER" property="groupId" />
+    <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+    <result column="account_password" jdbcType="VARCHAR" property="accountPassword" />
+    <result column="client_flag" jdbcType="INTEGER" property="clientFlag" />
+    <result column="manage_flag" jdbcType="INTEGER" property="manageFlag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, ip, pc_name, group_id, account_name, account_password, client_flag, manage_flag
+  </sql>
+  <select id="selectByExample" parameterType="com.dut.entity.PCExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pc
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pc
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dut.entity.PCExample">
+    delete from pc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dut.entity.PC">
+    insert into pc (id, ip, pc_name, 
+      group_id, account_name, account_password, 
+      client_flag, manage_flag)
+    values (#{id,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{pcName,jdbcType=VARCHAR}, 
+      #{groupId,jdbcType=INTEGER}, #{accountName,jdbcType=VARCHAR}, #{accountPassword,jdbcType=VARCHAR}, 
+      #{clientFlag,jdbcType=INTEGER}, #{manageFlag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dut.entity.PC">
+    insert into pc
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="pcName != null">
+        pc_name,
+      </if>
+      <if test="groupId != null">
+        group_id,
+      </if>
+      <if test="accountName != null">
+        account_name,
+      </if>
+      <if test="accountPassword != null">
+        account_password,
+      </if>
+      <if test="clientFlag != null">
+        client_flag,
+      </if>
+      <if test="manageFlag != null">
+        manage_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="pcName != null">
+        #{pcName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="accountName != null">
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPassword != null">
+        #{accountPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="clientFlag != null">
+        #{clientFlag,jdbcType=INTEGER},
+      </if>
+      <if test="manageFlag != null">
+        #{manageFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dut.entity.PCExample" resultType="java.lang.Long">
+    select count(*) from pc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pc
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcName != null">
+        pc_name = #{record.pcName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupId != null">
+        group_id = #{record.groupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.accountName != null">
+        account_name = #{record.accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountPassword != null">
+        account_password = #{record.accountPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientFlag != null">
+        client_flag = #{record.clientFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.manageFlag != null">
+        manage_flag = #{record.manageFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pc
+    set id = #{record.id,jdbcType=INTEGER},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      pc_name = #{record.pcName,jdbcType=VARCHAR},
+      group_id = #{record.groupId,jdbcType=INTEGER},
+      account_name = #{record.accountName,jdbcType=VARCHAR},
+      account_password = #{record.accountPassword,jdbcType=VARCHAR},
+      client_flag = #{record.clientFlag,jdbcType=INTEGER},
+      manage_flag = #{record.manageFlag,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dut.entity.PC">
+    update pc
+    <set>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="pcName != null">
+        pc_name = #{pcName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="accountName != null">
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPassword != null">
+        account_password = #{accountPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="clientFlag != null">
+        client_flag = #{clientFlag,jdbcType=INTEGER},
+      </if>
+      <if test="manageFlag != null">
+        manage_flag = #{manageFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dut.entity.PC">
+    update pc
+    set ip = #{ip,jdbcType=VARCHAR},
+      pc_name = #{pcName,jdbcType=VARCHAR},
+      group_id = #{groupId,jdbcType=INTEGER},
+      account_name = #{accountName,jdbcType=VARCHAR},
+      account_password = #{accountPassword,jdbcType=VARCHAR},
+      client_flag = #{clientFlag,jdbcType=INTEGER},
+      manage_flag = #{manageFlag,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

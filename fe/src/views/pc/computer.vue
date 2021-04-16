@@ -52,7 +52,7 @@
 
 		<div class="ma-3">
 			<v-row class="d-flex align-center">
-				<v-col cols="2">
+				<v-col cols="4">
 					<v-btn class="mr-2" color="primary" @click="addPc">
 						新增计算机
 					</v-btn>
@@ -71,7 +71,7 @@
 					</v-btn>
 				</v-col>
 
-				<v-col cols="5">
+				<v-col cols="4">
 					<v-btn class="teal white--text mr-2">
 						安装审查客户端
 					</v-btn>

@@ -90,7 +90,7 @@
 			<template v-slot:item.actions="{ item }">
 				<v-btn x-small class="mr-2 primary" @click="selectRoles(item)">角色分配</v-btn>
 				<v-btn x-small class="mr-2 info" @click="editUser(item)">编辑</v-btn>
-				<v-btn x-small class="mr-2 error" @click="deleteUser(item.ids)">删除</v-btn>
+				<v-btn x-small class="mr-2 error" @click="deleteUser(item.id)">删除</v-btn>
 			</template>
 		</v-data-table>
 

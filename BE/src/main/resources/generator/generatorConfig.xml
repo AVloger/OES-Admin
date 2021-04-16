@@ -39,7 +39,9 @@
                              targetPackage="com.dut.mapper"
                              type="XMLMAPPER" />
 <!--        <table tableName="user" domainObjectName="User"/>-->
-        <table tableName="role" domainObjectName="Role"/>
-        <table tableName="user_role" domainObjectName="UserRole" />
+<!--        <table tableName="role" domainObjectName="Role"/>-->
+<!--        <table tableName="user_role" domainObjectName="UserRole" />-->
+        <table tableName="pc" domainObjectName="PC" />
+        <table tableName="pc_group" domainObjectName="PcGroup" />
     </context>
 </generatorConfiguration>

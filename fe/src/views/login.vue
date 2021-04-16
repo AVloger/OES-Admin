@@ -1,6 +1,7 @@
 <template>
 	<!-- login页面 -->
 	<v-app>
+		<v-snackbar centered height="80" v-model="snackbar" :timeout="timeout">{{snackbarText}}</v-snackbar>
 		<v-container class="fill-height">
 			<v-row class="justify-center">
 				<v-col cols="12" md="5">
@@ -9,12 +10,12 @@
 							<h1 class="text-center blue--text display-2">欢迎登录</h1>
 						</v-card-text>
 						<v-card-text>
-							<v-text-field label="请输入姓名" required></v-text-field>
-							<v-text-field label="请输入密码" required></v-text-field>
+							<v-text-field label="请输入姓名"  v-model="user.name"></v-text-field>
+							<v-text-field label="请输入密码" type="password"  v-model="user.password"></v-text-field>
 
 							<v-row>
 								<v-col cols="6">
-									<v-text-field label="请输入验证码"></v-text-field>
+									<v-text-field label="请输入验证码" v-model="user.imageCode"></v-text-field>
 								</v-col>
 								<v-spacer></v-spacer>
 								<v-col cols="3" class="d-flex justify-center align-center mr-10 ">
@@ -57,13 +58,23 @@
 		},
 		data: function() {
 			return {
+				timeout: 1000,
+				snackbarText: '',
+				snackbar: false,
+				user: {},
 				srcCode: "",
 			}
 		},
 		methods: {
 			login() {
 				let _this = this;
-				_this.$router.push('/welcome');
+				if(Tool.isEmpty(_this.user.name) || Tool.isEmpty(_this.user.password) || Tool.isEmpty(_this.user.imageCode)) {
+					_this.snackbar = true;
+					_this.snackbarText = '用户名、密码、验证码不能为空';
+					return ;
+				} 
+				_this.$router.push("/welcome");
+				
 			},
 			// 获取验证码
 			getImageCode() {

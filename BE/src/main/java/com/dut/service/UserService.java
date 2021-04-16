@@ -50,7 +50,8 @@ public class UserService {
             // 新增
             userMapper.insert(user);
         } else {
-            user.setId((int)userDto.getId());
+//            System.out.println(user);
+//            user.setId((int)userDto.getId());
             userMapper.updateByPrimaryKey(user);
         }
     }

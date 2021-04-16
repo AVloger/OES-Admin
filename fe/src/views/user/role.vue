@@ -47,7 +47,7 @@
                 <td class="text-center">{{ role.name }}</td>
                 <td class="text-center">{{ role.description }}</td>
 
-               <td>
+      <!--         <td>
                   <v-row class="justify-space-around">
                     <v-btn small color="primary" @click="editrole(role)">
                       <v-icon>edit</v-icon>
@@ -56,7 +56,7 @@
                       <v-icon>delete</v-icon>
                     </v-btn>
                   </v-row>
-                </td>
+                </td> -->
               </tr>
             </tbody>
           </v-simple-table>
