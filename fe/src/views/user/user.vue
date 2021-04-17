@@ -65,7 +65,7 @@
 				</v-card-title>
 				<v-card-text>
 					<v-text-field label="姓名" v-model="user.name"></v-text-field>
-					<v-text-field label="密码" v-model="user.password"></v-text-field>
+					<v-text-field type="password" label="密码" v-model="user.password"></v-text-field>
 					<v-text-field label="联系方式" v-model="user.phone"></v-text-field>
 					<v-text-field label="备注" v-model="user.remark"></v-text-field>
 				</v-card-text>

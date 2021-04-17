@@ -41,7 +41,6 @@ public class UserController {
      */
     @PostMapping("/pageUser")
     public ResponseDto pageList(@RequestBody PageDto pageDto, HttpServletRequest request){
-        System.out.println(request.getSession().getId());
         ResponseDto response = new ResponseDto();
         userService.list(pageDto);
         return response.ok(pageDto);
@@ -66,7 +65,6 @@ public class UserController {
     @PostMapping("/save")
     public ResponseDto save(@RequestBody UserDto userDto) {
         ResponseDto responseDto = new ResponseDto();
-        System.out.println(userDto);
         userService.save(userDto);
         return responseDto.ok(userDto);
     }

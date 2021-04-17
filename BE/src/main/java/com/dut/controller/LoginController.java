@@ -5,6 +5,7 @@ import com.dut.dto.ResponseDto;
 import com.dut.entity.User;
 import com.dut.entity.UserExample;
 import com.dut.mapper.UserMapper;
+import com.dut.util.MD5Util;
 import com.google.code.kaptcha.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +40,7 @@ public class LoginController {
             return ResponseDto.error("验证码错误");
         } if(userList.size() == 0) {
             return ResponseDto.error("该用户不存在");
-        } if(userList.size()!=0 && !userList.get(0).getPassword().equals(password)) {
+        } if(userList.size()!=0 && !userList.get(0).getPassword().equals(MD5Util.MD5(password))) {
             return ResponseDto.error("密码错误");
         }
             return ResponseDto.ok();

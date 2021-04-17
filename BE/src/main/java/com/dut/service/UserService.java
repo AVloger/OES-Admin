@@ -7,10 +7,12 @@ import com.dut.entity.User;
 import com.dut.entity.UserExample;
 import com.dut.mapper.UserMapper;
 import com.dut.util.CopyUtil;
+import com.dut.util.MD5Util;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.security.provider.MD5;
 
 import java.util.List;
 
@@ -46,6 +48,7 @@ public class UserService {
     public void save(UserDto userDto) {
         User user = CopyUtil.copy(userDto, User.class);
         System.out.println(user);
+        user.setPassword(MD5Util.MD5(userDto.getPassword()));
         if(userDto.getId() == null) {
             // 新增
             userMapper.insert(user);
