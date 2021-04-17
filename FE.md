@@ -547,3 +547,16 @@ pagination
 				:footer-props="{itemsPerPageText: '每页 '}">
 					<template v-slot:footer.page-text="props">
 						Custom page-text
+
+
+
+
+# 多次请求session不一致问题
+
+先用postman进行测试，没问题，所以问题在于前端
+
+前端axios如何设置 啥都没变
+
+前端如果用localhost就不行
+
+所以就用ip:port形式 来访问

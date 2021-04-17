@@ -3,11 +3,14 @@ import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify';
 import axios from 'axios'
-Vue.config.productionTip = false
-Vue.prototype.$ajax = axios;
 // 解决每次ajax请求，对应的sessionId不一致的问题
-axios.defaults.withCredentials = true;
-
+axios.defaults.withCredentials=true; //让ajax携带cookie
+// Vue.prototype.$http=axios;
+Vue.prototype.$ajax=axios;
+Vue.config.productionTip=false;
+// axios.defaults.baseURL = '/';
+// axios.defaults.headers.common['Authorization'] = 'TEST';
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 /**
  * axio拦截器

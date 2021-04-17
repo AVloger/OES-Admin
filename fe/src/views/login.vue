@@ -1,7 +1,7 @@
 <template>
 	<!-- login页面 -->
 	<v-app>
-		<v-snackbar centered height="80" v-model="snackbar" :timeout="timeout">{{snackbarText}}</v-snackbar>
+		<v-snackbar top height="80" v-model="snackbar" :timeout="timeout">{{snackbarText}}</v-snackbar>
 		<v-container class="fill-height">
 			<v-row class="justify-center">
 				<v-col cols="12" md="5">
@@ -58,7 +58,7 @@
 		},
 		data: function() {
 			return {
-				timeout: 1000,
+				timeout: 500,
 				snackbarText: '',
 				snackbar: false,
 				user: {},
@@ -73,7 +73,20 @@
 					_this.snackbarText = '用户名、密码、验证码不能为空';
 					return ;
 				} 
-				_this.$router.push("/welcome");
+				
+				_this.$ajax.post(process.env.VUE_APP_SERVER + '/admin/login', _this.user).then(res => {
+					if(res.data.code == '200') {
+						console.log("登录成功");
+						_this.$router.push("/welcome");
+					} else {
+						_this.snackbar = true;
+						_this.snackbarText = res.data.message;
+						_this.user = {};
+						_this.getImageCode();
+					}
+					
+				})
+				// _this.$router.push("/welcome");
 				
 			},
 			// 获取验证码

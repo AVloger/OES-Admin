@@ -25,7 +25,7 @@ public class CustomHandler extends SimpleChannelInboundHandler<HttpObject> {
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);
         // 为响应增加数据类型和长度
         response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/plain");
-        response.headers().set(HttpHeaderNames.CONTENT_LENGTH, content.readableBytes());
+//        response.headers().set(HttpHeaderNames.CONTENT_LENGTH, content.readableBytes());
         // 把响应渲染到html页面
         ctx.writeAndFlush(response);
 

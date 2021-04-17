@@ -11,6 +11,8 @@ import com.dut.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 用户管理-控制器
  */
@@ -38,8 +40,8 @@ public class UserController {
      * 先用postman测试
      */
     @PostMapping("/pageUser")
-    public ResponseDto pageList(@RequestBody PageDto pageDto){
-
+    public ResponseDto pageList(@RequestBody PageDto pageDto, HttpServletRequest request){
+        System.out.println(request.getSession().getId());
         ResponseDto response = new ResponseDto();
         userService.list(pageDto);
         return response.ok(pageDto);

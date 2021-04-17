@@ -52,4 +52,15 @@ public class ResponseDto {
         responseDto.setCode(500);
         return responseDto;
     }
+
+    /**
+     * 添加返回错误信息
+     */
+    public static ResponseDto error(String msg){
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setSuccess(false);
+        responseDto.setCode(500);
+        responseDto.setMessage(msg);
+        return responseDto;
+    }
 }

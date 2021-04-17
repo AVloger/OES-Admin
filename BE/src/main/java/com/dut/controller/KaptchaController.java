@@ -1,6 +1,7 @@
 package com.dut.controller;
 
 import com.dut.dto.ResponseDto;
+import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpRequest;
@@ -52,22 +53,24 @@ public class KaptchaController {
 //            System.out.println(kaptchaStr);
             code = kaptchaText.substring(kaptchaText.indexOf("@")+1);
             image = kaptchaProducerMath.createImage(kaptchaStr);
-            // 将生成的验证码答案写入session中
-            request.getSession().setAttribute("kaptcha", code);
-            ImageIO.write(image, "jpg", jpegOutputStream);
+            // 将生成的验证码答案写入session
+            request.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, code);
+//            ImageIO.write(image, "jpg", jpegOutputStream);
         } else if ("char".equals(kaptchaType)){
             // 字符验证码
             String kaptchaText = kaptchaProducer.createText();
+            image = kaptchaProducer.createImage(kaptchaText);
 
         }
 //         返回Image
-        byte[] captchaChallengeAsJpeg = jpegOutputStream.toByteArray();
+//        byte[] captchaChallengeAsJpeg = jpegOutputStream.toByteArray();
         response.setHeader("Cache-Control", "no-store");
         response.setHeader("Pragma", "no-cache");
         response.setDateHeader("Expires", 0);
         response.setContentType("image/jpeg");
         ServletOutputStream responseOutputStream = response.getOutputStream();
-        responseOutputStream.write(captchaChallengeAsJpeg);
+        ImageIO.write(image, "jpg", responseOutputStream);
+//        responseOutputStream.write(captchaChallengeAsJpeg);
         responseOutputStream.flush();
         responseOutputStream.close();
     }

@@ -187,20 +187,18 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-
         <!--Netty -->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.49.Final</version>
-<!--            <version>5.0.0.Alpha2</version>-->
+            <version>4.1.45.Final</version>
         </dependency>
 
-        <!--        Springboot - websocket-->
+        <!-- jwt -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-websocket</artifactId>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
         </dependency>
 
     </dependencies>

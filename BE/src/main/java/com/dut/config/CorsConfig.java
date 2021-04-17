@@ -12,11 +12,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        //设置允许跨域的路径
         registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedHeaders(CorsConfiguration.ALL)
-                .allowedMethods(CorsConfiguration.ALL)
+                //是否允许证书,不再默认开启
                 .allowCredentials(true)
-                .maxAge(10); // 1小时内不需要再预检（发OPTIONS请求）
+                .allowedOrigins("*")
+                //设置允许的方法
+                .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
+                //跨域允许时间
+                .maxAge(3600);
     }
 }
