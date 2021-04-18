@@ -30,12 +30,13 @@ public class LoginController {
         ResponseDto responseDto = new ResponseDto();
         String name = loginUserDto.getName();
         String password = loginUserDto.getPassword();
-        String imageCode = loginUserDto.getImageCode();
+//        String imageCode = loginUserDto.getImageCode();
         UserExample userExample = new UserExample();
         userExample.createCriteria().andNameEqualTo(name);
         List<User> userList = userMapper.selectByExample(userExample);
         // 查找该用户
         // 从session中取出验证码
+//        System.out.println("登录验证码为:"+request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY));
         if(!loginUserDto.getImageCode().equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY))) {
             return ResponseDto.error("验证码错误");
         } if(userList.size() == 0) {

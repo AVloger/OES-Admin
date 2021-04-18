@@ -209,7 +209,7 @@
 			 */
 			getGroups() {
 				let _this = this;
-				_this.$ajax.get(process.env.VUE_APP_SERVER + '/admin/group/list').then(res => {
+				_this.$api.group.getGroups().then(res => {
 					if (res.data.code == '200') {
 						_this.groups = res.data.content;
 					}
@@ -243,7 +243,7 @@
 				let _this = this;
 				console.log(_this.pc);
 				Loading.show();
-				_this.$ajax.post(process.env.VUE_APP_SERVER + '/admin/pc/save', _this.pc).then(res => {
+				_this.$api.pc.save(_this.pc).then(res => {
 					Loading.hide(function() {
 
 						_this.pcDialog = false;
@@ -270,7 +270,7 @@
 			getComputers() {
 				let _this = this;
 				Loading.show();
-				_this.$ajax.get(process.env.VUE_APP_SERVER + '/admin/pc/list/' + _this.pcGroup.id).then(res => {
+				_this.$api.pc.list(_this.pcGroup.id).then(res => {
 					Loading.hide(function() {
 						if (res.data.code == '200') {
 							_this.pcs = res.data.content;

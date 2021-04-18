@@ -191,7 +191,7 @@
 			// 获取角色列表
 			getRoles() {
 				let _this = this;
-				_this.$ajax.get(process.env.VUE_APP_SERVER + '/admin/role/list').then(res => {
+				_this.$api.user.getRoles().then(res => {
 					if (res.data.code == '200') {
 						_this.roles = res.data.content;
 					}
@@ -210,15 +210,18 @@
 
 				// console.log('每页大小:', itemsPerPage);
 				// console.log('当前页码:', page);
+				// console.log(_this.global.baseUrl);
 
-				_this.$ajax.post(process.env.VUE_APP_SERVER + '/admin/user/pageUser/', {
+
+				_this.$api.user.findPage({
 					page: page,
 					size: itemsPerPage
-				}).then(res => {
-					_this.desserts = res.data.content.list;
-					_this.totalDesserts = res.data.content.total;
-					_this.loading = false;
-				});
+				}).then(
+					res => {
+						_this.desserts = res.data.content.list;
+						_this.totalDesserts = res.data.content.total;
+						_this.loading = false;
+					})
 			},
 
 
@@ -251,7 +254,7 @@
 			del() {
 				let _this = this;
 				Loading.show();
-				_this.$ajax.delete(process.env.VUE_APP_SERVER + '/admin/user/delete/' + _this.deleteUserId).then(res => {
+				_this.$api.user.delUser(_this.deleteUserId).then(res => {
 					Loading.hide(function() {
 
 						if (res.data.code == '200') {
@@ -274,7 +277,7 @@
 			save() {
 				let _this = this;
 				Loading.show();
-				_this.$ajax.post(process.env.VUE_APP_SERVER + '/admin/user/save', _this.user).then(res => {
+				_this.$api.user.save( _this.user).then(res => {
 					Loading.hide(function() {
 						if (res.data.code == '200') {
 							_this.userDialog = false;
@@ -298,7 +301,7 @@
 				_this.userId = item.id; // 保存当前用户id
 				_this.roleDialog = true;
 				// 获取每个用户的角色
-				_this.$ajax.get(process.env.VUE_APP_SERVER + '/admin/userRole/roleList/' + item.id).then(res => {
+				_this.$api.user.getRolesByUser(item.id).then(res => {
 					_this.checkRoles = res.data.content;
 				});
 
@@ -310,7 +313,7 @@
 			saveRoles() {
 				let _this = this;
 				Loading.show();
-				_this.$ajax.post(process.env.VUE_APP_SERVER + '/admin/userRole/saveRoles', {
+				_this.$api.user.saveRoles({
 					userId: _this.userId,
 					roleList: _this.checkRoles
 				}).then(res => {

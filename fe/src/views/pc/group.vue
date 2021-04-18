@@ -132,7 +132,7 @@
 			 */
 			getGroups() {
 				let _this = this;
-				_this.$ajax.get(process.env.VUE_APP_SERVER + '/admin/group/list').then(res => {
+				_this.$api.group.getGroups().then(res => {
 					if(res.data.code == '200') {
 						_this.groups = res.data.content;
 					}
@@ -165,7 +165,7 @@
 					return ;
 				}
 				Loading.show();
-				_this.$ajax.post(process.env.VUE_APP_SERVER + '/admin/group/save', _this.group).then(res => {
+				_this.$api.group.save(_this.group).then(res => {
 					Loading.hide(function() {
 						if(res.data.code == '200') {
 							_this.groupDialog = false,

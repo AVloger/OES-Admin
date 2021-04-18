@@ -74,7 +74,7 @@
 					return ;
 				} 
 				
-				_this.$ajax.post(process.env.VUE_APP_SERVER + '/admin/login', _this.user).then(res => {
+				_this.$api.login.login(_this.user).then(res => {
 					if(res.data.code == '200') {
 						console.log("登录成功");
 						_this.$router.push("/welcome");

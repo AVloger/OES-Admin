@@ -135,7 +135,7 @@ export default {
     listroles() {
       let _this = this;
 			Loading.show();
-			_this.$ajax.get(process.env.VUE_APP_SERVER+'/admin/role/list').then(res =>{
+			_this.$api.role.getRoles().then(res =>{
 				Loading.hide(function() {
 					if (res.data.code == '200') {
 						_this.roles = res.data.content;
