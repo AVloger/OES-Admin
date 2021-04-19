@@ -10,8 +10,8 @@
 							<h1 class="text-center blue--text display-2">欢迎登录</h1>
 						</v-card-text>
 						<v-card-text>
-							<v-text-field label="请输入姓名"  v-model="user.name"></v-text-field>
-							<v-text-field label="请输入密码" type="password"  v-model="user.password"></v-text-field>
+							<v-text-field label="请输入姓名" v-model="user.name"></v-text-field>
+							<v-text-field label="请输入密码" type="password" v-model="user.password"></v-text-field>
 
 							<v-row>
 								<v-col cols="6">
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+	// import Cookies from 'js-cooki'
 	export default {
 		// https://www.cnblogs.com/chenzeyongjsj/p/8093789.html
 		// created:在模板渲染成html前调用，即通常初始化某些属性值，然后再渲染成视图。
@@ -53,7 +54,7 @@
 
 			$("#image-code").on("click", function() {
 				var img_path = process.env.VUE_APP_SERVER + '/admin/kaptcha/getImageCode';
-				$('#image-code').prop("src", process.env.VUE_APP_SERVER+'/admin/kaptcha/getImageCode');
+				$('#image-code').prop("src", process.env.VUE_APP_SERVER + '/admin/kaptcha/getImageCode');
 			});
 		},
 		data: function() {
@@ -68,15 +69,18 @@
 		methods: {
 			login() {
 				let _this = this;
-				if(Tool.isEmpty(_this.user.name) || Tool.isEmpty(_this.user.password) || Tool.isEmpty(_this.user.imageCode)) {
+				if (Tool.isEmpty(_this.user.name) || Tool.isEmpty(_this.user.password) || Tool.isEmpty(_this.user
+						.imageCode)) {
 					_this.snackbar = true;
 					_this.snackbarText = '用户名、密码、验证码不能为空';
-					return ;
-				} 
-				
+					return;
+				}
+
 				_this.$api.login.login(_this.user).then(res => {
-					if(res.data.code == '200') {
-						console.log("登录成功");
+					if (res.data.code == '200') {
+						// console.log("登录成功");
+						// console.log("token:", res.data.content.token);
+						Cookies.set("token", res.data.content.token);
 						_this.$router.push("/welcome");
 					} else {
 						_this.snackbar = true;
@@ -84,10 +88,10 @@
 						_this.user = {};
 						_this.getImageCode();
 					}
-					
+
 				})
 				// _this.$router.push("/welcome");
-				
+
 			},
 			// 获取验证码
 			getImageCode() {

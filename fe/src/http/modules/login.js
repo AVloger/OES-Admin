@@ -7,3 +7,10 @@ export const login = (data) => {
 		data
 	})
 }
+
+export const logout = () => {
+	return axios({
+		url: '/admin/logout',
+		method: 'get'
+	})
+}

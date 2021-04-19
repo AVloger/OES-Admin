@@ -560,3 +560,132 @@ pagination
 前端如果用localhost就不行
 
 所以就用ip:port形式 来访问
+
+
+
+# export default 和 export const
+
+一个文件里可以有多个export const 
+
+但是export default只能有一个
+
+export const baseUrl
+
+对应的导入方式
+
+import { baseUrl } from '@/utils/global'、
+
+export default {}
+
+对应的导入方式
+
+import global from '@/utils/global'
+
+# 添加实例 property
+
+- [官方文档](https://cn.vuejs.org/v2/cookbook/adding-instance-properties.html)
+- Vue.prototype.appName = 'My App'
+	- 使用：this.appName
+
+
+
+# axios封装
+
+- 解耦
+- [axios文档](http://www.axios-js.com/)
+## 配置
+
+config.js
+
+```js
+/**
+ * axios相关配置
+ */
+import { baseUrl } from '@/utils/global'
+export default {
+  method: 'get',
+  // 基础url前缀
+  baseUrl: baseUrl,
+  // 请求头信息
+  headers: {
+    'Content-Type': 'application/json;charset=UTF-8'
+  },
+  // 参数
+  data: {},
+  // 设置超时时间
+  timeout: 10000,
+  // 携带凭证
+  withCredentials: true,
+  // 返回数据类型
+  responseType: 'json'
+}
+```
+
+## axios拦截器
+
+axios.js
+
+```js
+/**
+ * axios拦截器 
+ * 可以进行拦截和响应拦截
+ * 在发送请求和响应请求时执行一些操作
+ */
+import axios from 'axios'
+import config from './config'
+import router from '@/router'
+
+export default function $axios(options) {
+	return new Promise((resolve, reject) => {
+		const instance = axios.create({
+      baseURL: config.baseUrl,
+      headers: config.headers,
+      timeout: config.timeout,
+      withCredentials: config.withCredentials
+		})
+		// 添加请求拦截器
+		instance.interceptors.request.use(function(config) {
+			console.log("请求:", config);
+			return config;
+		}, function(error) {
+			return Promise.reject(error);
+		})
+		// 添加响应拦截器
+		instance.interceptors.response.use(function(config) {
+			console.log("响应:", config);
+			return config;
+		}, function(error) {
+			return Promise.reject(error);
+		})
+		// 请求处理
+		instance(options).then(res => {
+			resolve(res)
+			return false
+		}).catch(error => {
+			reject(error)
+		})
+
+
+	})
+}
+
+```
+
+## 把axios注册为Vue插件使用
+
+1 把axios
+
+
+
+
+
+安装js-cookies
+
+index.html引入js文件即可
+
+前端用cookies保存token 
+
+每次发送请求header中加入token
+
+后端从请求头中拿到token
+

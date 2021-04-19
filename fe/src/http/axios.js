@@ -18,6 +18,13 @@ export default function $axios(options) {
 		// 添加请求拦截器
 		instance.interceptors.request.use(function(config) {
 			console.log("请求:", config);
+			let token = Cookies.get("token");
+			if (token) {
+				config.headers.token = token;
+			} else {
+				// 重定向到登录页面
+				router.push("/login");
+			}
 			return config;
 		}, function(error) {
 			return Promise.reject(error);
@@ -36,7 +43,5 @@ export default function $axios(options) {
 		}).catch(error => {
 			reject(error)
 		})
-
-
 	})
 }

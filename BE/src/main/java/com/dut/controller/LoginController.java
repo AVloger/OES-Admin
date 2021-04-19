@@ -8,13 +8,12 @@ import com.dut.mapper.UserMapper;
 import com.dut.util.MD5Util;
 import com.google.code.kaptcha.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 登录控制器
@@ -26,7 +25,7 @@ public class LoginController {
     private UserMapper userMapper;
 
     @PostMapping("/login")
-    public ResponseDto login(@RequestBody LoginUserDto loginUserDto, HttpServletRequest request) {
+    public ResponseDto login(@RequestBody LoginUserDto loginUserDto, HttpServletRequest request, HttpServletResponse response) {
         ResponseDto responseDto = new ResponseDto();
         String name = loginUserDto.getName();
         String password = loginUserDto.getPassword();
@@ -44,8 +43,26 @@ public class LoginController {
         } if(userList.size()!=0 && !userList.get(0).getPassword().equals(MD5Util.MD5(password))) {
             return ResponseDto.error("密码错误");
         }
-            return ResponseDto.ok();
+        // 登录成功后 移除验证码
+        request.getSession().removeAttribute(Constants.KAPTCHA_SESSION_KEY);
+        // 设置token
+        String token = String.valueOf(UUID.randomUUID());
+        request.getSession().setAttribute("token",token);
+//        response.setHeader("token", token);
+        loginUserDto.setToken(token);
+        return ResponseDto.ok(loginUserDto);
+    }
 
+
+    /**
+     * 退出登录
+     */
+    @GetMapping("/logout")
+    public ResponseDto logout(HttpServletRequest request) {
+        // 从请求中获取token
+        String token = request.getHeader("token");
+        System.out.println(token);
+        return ResponseDto.ok();
     }
 }
 

@@ -22,7 +22,7 @@
 					</v-list-item>
 				</v-list>
 			</v-menu>
-			<v-btn text>
+			<v-btn text @click="logout">
 				<span>退出</span>
 				<v-icon>exit_to_app</v-icon>
 			</v-btn>
@@ -126,7 +126,16 @@
 					}
 				]
 			}
-		}
+		},
+		
+		methods: {
+			logout() {
+				let _this = this;
+				_this.$api.login.logout().then(res => {
+					_this.$router.push("/login");
+				})
+			}
+		},
 	}
 </script>
 
