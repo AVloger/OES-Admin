@@ -48,7 +48,6 @@ public class LoginController {
         // 设置token
         String token = String.valueOf(UUID.randomUUID());
         request.getSession().setAttribute("token",token);
-//        response.setHeader("token", token);
         loginUserDto.setToken(token);
         return ResponseDto.ok(loginUserDto);
     }
@@ -59,9 +58,7 @@ public class LoginController {
      */
     @GetMapping("/logout")
     public ResponseDto logout(HttpServletRequest request) {
-        // 从请求中获取token
-        String token = request.getHeader("token");
-        System.out.println(token);
+        request.getSession().removeAttribute("token");
         return ResponseDto.ok();
     }
 }

@@ -32,9 +32,13 @@ export default function $axios(options) {
 		// 添加响应拦截器
 		instance.interceptors.response.use(function(config) {
 			console.log("响应:", config);
+			
 			return config;
 		}, function(error) {
-			return Promise.reject(error);
+			// 重定向到登录页面
+			router.push("/login");
+			console.log(error);
+			return Promise.reject(error.header);
 		})
 		// 请求处理
 		instance(options).then(res => {

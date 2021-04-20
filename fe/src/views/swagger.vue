@@ -10,7 +10,7 @@ export default {
   name: "Swagger",
   data() {
     return {
-      src: process.env.VUE_APP_SERVER + "/swagger-ui.html",
+      src: this.global.baseUrl + "/swagger-ui.html",
       height: document.documentElement.clientHeight - 94.5 + "px;",
     };
   },

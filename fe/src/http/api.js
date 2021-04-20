@@ -6,11 +6,13 @@ import * as role from './modules/role'
 import * as group from './modules/group'
 import * as pc from './modules/pc'
 import * as login from './modules/login'
+import * as tool from './modules/tool'
 // 默认全部导出
 export default {
 	user, 
 	role,
 	group,
 	pc,
-	login
+	login,
+	tool
 }
