@@ -52,3 +52,12 @@ export const saveRoles = (data) => {
 		data
 	})
 }
+
+// 修改密码
+export const savePassword = (data) => {
+	return axios({
+		url: '/admin/user/save-password',
+		method: 'post',
+		data
+	})
+}

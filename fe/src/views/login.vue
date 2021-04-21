@@ -97,7 +97,7 @@
 			getImageCode() {
 				let _this = this;
 				document.getElementById("image-code").click();
-				$('#image-code').attr("src", process.env.VUE_APP_SERVER + '/admin/kaptcha/getImageCode');
+				$('#image-code').attr("src", this.global.baseUrl + '/admin/kaptcha/getImageCode');
 			},
 		}
 	}

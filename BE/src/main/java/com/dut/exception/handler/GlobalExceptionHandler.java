@@ -18,7 +18,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Throwable.class)
     public ResponseDto exceptionHandler(HttpServletResponse response, HttpServletRequest request, Exception e) {
         if (e instanceof CustomException){
-            System.out.println("怎么样");
             return ResponseDto.error(((CustomException) e).getMsg());
         } else {
             return ResponseDto.error();

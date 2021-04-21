@@ -23,10 +23,10 @@
     </v-dialog> -->
 
     <!-- 按钮 -->
-    <div class="mt-5 mb-5">
+<!--    <div class="mt-5 mb-5">
       <v-btn class="mr-5" color="primary" @click="addrole()"> 新增 </v-btn>
       <v-btn color="warning" @click="listroles"> 刷新 </v-btn>
-    </div>
+    </div> -->
 
     <!-- 列表展示 -->
     <v-container>
@@ -136,11 +136,10 @@ export default {
       let _this = this;
 			Loading.show();
 			_this.$api.role.getRoles().then(res =>{
-				Loading.hide(function() {
-					if (res.data.code == '200') {
-						_this.roles = res.data.content;
-					}
-				})
+				Loading.hide();
+				if(res.data.code == '200') {
+					_this.roles = res.data.content;
+				}
 			})
     },
     /**

@@ -689,3 +689,19 @@ index.html引入js文件即可
 
 后端从请求头中拿到token
 
+
+
+
+
+# 颜色方案
+
+class="white--text" color="#.."
+
+颜色网站：
+
+[1](https://www.uisdc.com/10-material-design-color-tools)
+
+[2](https://www.materialui.co/colors)
+
+# 验证器
+

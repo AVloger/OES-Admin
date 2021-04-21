@@ -3,13 +3,19 @@ Loading = {
 		$("body").mLoading("show");
 	},
 
-	hide: function(callback) {
-		// 延时，避免过快而导致现象不明显
+	// hide: function(callback) {
+	// 	// 延时，避免过快而导致现象不明显
 
-		setTimeout(  
-			function() {
-				$("body").mLoading("hide");
-				callback();
-			}, 200);
+	// 	setTimeout(  
+	// 		function() {
+	// 			$("body").mLoading("hide");
+	// 			callback();
+	// 		}, 200);
+	// },
+	
+	hide: function() {
+		setTimeout(function() {
+			$("body").mLoading("hide");
+		}, 0);
 	}
 };

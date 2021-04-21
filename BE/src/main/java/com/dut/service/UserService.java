@@ -48,14 +48,14 @@ public class UserService {
     public void save(UserDto userDto) {
         User user = CopyUtil.copy(userDto, User.class);
         System.out.println(user);
-        user.setPassword(MD5Util.MD5(userDto.getPassword()));
         if(userDto.getId() == null) {
             // 新增
-            userMapper.insert(user);
+            user.setPassword(MD5Util.MD5(userDto.getPassword()));
+            userMapper.insertSelective(user);
         } else {
-//            System.out.println(user);
-//            user.setId((int)userDto.getId());
-            userMapper.updateByPrimaryKey(user);
+            // 更新用户，不更新密码
+            user.setPassword(null);
+            userMapper.updateByPrimaryKeySelective(user);
         }
     }
 
@@ -63,4 +63,14 @@ public class UserService {
         userMapper.deleteByPrimaryKey(id);
     }
 
+    /**
+     * 保存密码
+     * @param userDto
+     */
+    public void savePassword(UserDto userDto) {
+        User user = CopyUtil.copy(userDto, User.class);
+        System.out.println(user);
+        user.setPassword(MD5Util.MD5(userDto.getPassword()));
+        userMapper.updateByPrimaryKeySelective(user);
+    }
 }

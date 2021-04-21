@@ -4,11 +4,13 @@ import com.dut.dto.PageDto;
 import com.dut.dto.ResponseDto;
 import com.dut.dto.UserDto;
 
-import com.dut.entity.User;
 import com.dut.entity.UserExample;
+import com.dut.exception.CustomException;
 import com.dut.mapper.UserMapper;
 import com.dut.service.UserService;
+import com.dut.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,9 +66,39 @@ public class UserController {
      */
     @PostMapping("/save")
     public ResponseDto save(@RequestBody UserDto userDto) {
+        // 进行简单验证
+        if(StringUtils.isEmpty(userDto.getName())) {
+            throw new CustomException("用户名不能为空");
+        }
+        if(StringUtils.isEmpty(userDto.getPassword())) {
+            throw new CustomException("密码不能为空");
+        }
+        if(StringUtils.isEmpty(userDto.getPhone())) {
+            throw new CustomException("联系方式不能为空");
+        }
         ResponseDto responseDto = new ResponseDto();
         userService.save(userDto);
         return responseDto.ok(userDto);
     }
+
+
+    /**
+     * 重置密码
+     */
+    @PostMapping("/save-password")
+    public ResponseDto editPassword(@RequestBody UserDto userDto) {
+        System.out.println(userDto);
+        // 校验
+        if(StringUtils.isEmpty(userDto.getPassword())){
+            throw new CustomException("密码不能为空");
+        }
+        if (MD5Util.MD5(userDto.getPassword()).equals(userMapper.selectByPrimaryKey(userDto.getId()).getPassword())) {
+            throw new CustomException("密码和原密码相同");
+        }
+
+        userService.savePassword(userDto);
+        return ResponseDto.ok();
+    }
+
 
 }

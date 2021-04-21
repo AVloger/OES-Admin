@@ -166,12 +166,11 @@
 				}
 				Loading.show();
 				_this.$api.group.save(_this.group).then(res => {
-					Loading.hide(function() {
-						if(res.data.code == '200') {
-							_this.groupDialog = false,
-							_this.getGroups();
-						}
-					});
+					Loading.hide();
+					if(res.data.code == '200') {
+						_this.groupDialog = false;
+						_this.getGroups();
+					}
 				})
 			},
 			

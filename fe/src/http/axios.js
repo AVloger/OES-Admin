@@ -10,10 +10,10 @@ import router from '@/router'
 export default function $axios(options) {
 	return new Promise((resolve, reject) => {
 		const instance = axios.create({
-      baseURL: config.baseUrl,
-      headers: config.headers,
-      timeout: config.timeout,
-      withCredentials: config.withCredentials
+			baseURL: config.baseUrl,
+			headers: config.headers,
+			timeout: config.timeout,
+			withCredentials: config.withCredentials
 		})
 		// 添加请求拦截器
 		instance.interceptors.request.use(function(config) {
@@ -32,12 +32,18 @@ export default function $axios(options) {
 		// 添加响应拦截器
 		instance.interceptors.response.use(function(config) {
 			console.log("响应:", config);
-			
+
 			return config;
 		}, function(error) {
 			// 重定向到登录页面
-			router.push("/login");
-			console.log(error);
+			// router.push("/login");
+			Loading.hide();
+			setInterval(function() {
+				router.replace({
+					path: '/login'
+				})
+				location.reload();
+			}, 500);
 			return Promise.reject(error.header);
 		})
 		// 请求处理

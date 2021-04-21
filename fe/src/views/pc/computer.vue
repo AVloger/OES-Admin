@@ -244,15 +244,14 @@
 				console.log(_this.pc);
 				Loading.show();
 				_this.$api.pc.save(_this.pc).then(res => {
-					Loading.hide(function() {
-
+					Loading.hide();
+					if(res.data.code == '200') {
 						_this.pcDialog = false;
 						_this.getComputers();
-					});
-					setTimeout(function() {
-						_this.snackbarFlag = true;
-						_this.snackbarText = '保存成功';
-					}, 500);
+						_this.snackbarFlag=true;
+						_this.snackbarText="保存成功";
+					}
+
 				})
 			},
 
@@ -271,11 +270,10 @@
 				let _this = this;
 				Loading.show();
 				_this.$api.pc.list(_this.pcGroup.id).then(res => {
-					Loading.hide(function() {
-						if (res.data.code == '200') {
-							_this.pcs = res.data.content;
-						}
-					});
+					Loading.hide();
+					if (res.data.code == '200') {
+						_this.pcs = res.data.content;
+					}
 				})
 			}
 		},
