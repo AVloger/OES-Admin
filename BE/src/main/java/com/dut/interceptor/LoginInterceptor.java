@@ -28,7 +28,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 获取请求路径
         String path = request.getServletPath();
         // 图形验证码、登录、退出登录放行
-//        System.out.println(path);
+        System.out.println(path);
         if (path.contains("/admin/login") ||
                 path.contains("/admin/kaptcha") ||
                 path.contains("/admin/logout") ||

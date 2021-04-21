@@ -12,8 +12,9 @@ import Group from '@/views/pc/group.vue'
 import Computer from '@/views/pc/computer.vue'
 import PcDetail from '@/views/pcdetail.vue'
 
-import Case from '@/views/case.vue'
+import Case from '@/views/case/case.vue'
 import CaseDetail from '@/views/casedetail.vue'
+
 import Swagger from '@/views/swagger.vue'
 import Test from '@/views/test.vue'
 import Test2 from '@/views/test2.vue'

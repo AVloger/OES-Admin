@@ -133,30 +133,12 @@ public class ChatHandler extends SimpleChannelInboundHandler<Object> {
             String msg  = ((TextWebSocketFrame) request).text();
             // 绑定ip 和 channel
             // 定义每个上线的用户主动发送初始化信息过来，携带自己的ip，然后完成绑定 init:[ip]
-            if (msg.indexOf("init") != -1){
-//                String ip = String.valueOf(ctx.channel().remoteAddress());
-//                this.ipMap.addIp(ip,ctx.channel());
-//                ctx.channel().writeAndFlush(new TextWebSocketFrame("success"));
-//                String ips[] = msg.split("@");
-//                if("init".equals(ips[0])) {
-//                    // 读取对方的ip
-//
-//                    this.ipMap.addIp(ips[1].trim(), ctx.channel());
-//                    ctx.channel().writeAndFlush(new TextWebSocketFrame("success"));
-//
-//                }
-            }
+
             // 发送消息给指定用户 消息模型 [meIp]:[toIp]:[msg]
-            else  {
-                String host = String.valueOf(ctx.channel().remoteAddress());
-                System.out.println(msg);
-//                System.out.println(JSONObject.parseObject(msg).getJSONArray("plugin"));
-//                System.out.println(JSONObject.parseObject(msg).getInteger("taskId"));
-//                System.out.println(JSONObject.parseObject(msg).getString("flag"));
-//                System.out.println(JSONObject.parseObject(msg).getString("to"));
-//                String message = "由[" + host + "]发送的消息:" + msg;
-                this.ipMap.getChannelByIp(JSONObject.parseObject(msg).getString("to")).writeAndFlush(new TextWebSocketFrame((msg)));
-            }
+            String host = String.valueOf(ctx.channel().remoteAddress());
+            System.out.println(msg);
+            this.ipMap.getChannelByIp(JSONObject.parseObject(msg).getString("to")).writeAndFlush(new TextWebSocketFrame((msg)));
+
         } else if (request instanceof BinaryWebSocketFrame) {
             // 二进制文件
             BinaryWebSocketFrame img= (BinaryWebSocketFrame) request;

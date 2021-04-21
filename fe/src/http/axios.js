@@ -43,7 +43,7 @@ export default function $axios(options) {
 					path: '/login'
 				})
 				location.reload();
-			}, 500);
+			}, 10);
 			return Promise.reject(error.header);
 		})
 		// 请求处理

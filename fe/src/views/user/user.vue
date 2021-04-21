@@ -9,26 +9,26 @@
 			<v-btn @click="getDataFromApi()" class="success">刷新</v-btn>
 
 		</div>
-		
+
 		<!-- 密码修改 -->
 		<v-dialog v-model="dialogPassword" persistent max-width="200">
-				<v-card>
-					<v-card-title>
-						密码修改
-					</v-card-title>
-					
-					<v-card-text>
-						<v-text-field v-model="user.password" label="请输入新密码"></v-text-field>
-					</v-card-text>
-					<v-card-actions>
-						<v-spacer></v-spacer>
-						<v-btn class="primary" @click="editPsd(user)">保存</v-btn>
-						<v-btn class="info" @click="dialogPassword = !dialogPassword">取消</v-btn>
-					</v-card-actions>
-				</v-card>
+			<v-card>
+				<v-card-title>
+					密码修改
+				</v-card-title>
+
+				<v-card-text>
+					<v-text-field v-model="user.password" label="请输入新密码"></v-text-field>
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn class="primary" @click="editPsd(user)">保存</v-btn>
+					<v-btn class="info" @click="dialogPassword = !dialogPassword">取消</v-btn>
+				</v-card-actions>
+			</v-card>
 
 		</v-dialog>
-		
+
 		<!-- 角色分配 -->
 		<v-dialog v-model="roleDialog" max-width="300">
 			<v-card>
@@ -57,7 +57,7 @@
 
 
 		<!-- 删除确认框 -->
-		<v-dialog v-model="confirmDialog" persistent  max-width="200">
+		<v-dialog v-model="confirmDialog" persistent max-width="200">
 			<v-card>
 				<v-card-title>
 					{{ confirmTitle }}
@@ -124,7 +124,7 @@
 		data() {
 			return {
 				dialogPassword: false,
-				
+
 				userId: 0,
 				// 每个用户选择的角色列表
 				checkRoles: [],
@@ -281,7 +281,7 @@
 				Loading.show();
 				_this.$api.user.delUser(_this.deleteUserId).then(res => {
 					Loading.hide();
-					if(res.data.code == '200') {
+					if (res.data.code == '200') {
 						_this.confirmDialog = false;
 						_this.getDataFromApi();
 						_this.snackbarText = '删除成功';
@@ -299,13 +299,13 @@
 				Loading.show();
 				_this.$api.user.save(_this.user).then(res => {
 					Loading.hide();
-					if(res.data.code == '200') {
+					if (res.data.code == '200') {
 						_this.userDialog = false;
 						_this.getDataFromApi();
-							_this.snackbarText = '保存成功'
-							_this.snackbar = true;
+						_this.snackbarText = '保存成功'
+						_this.snackbar = true;
 					}
-					if(res.data.code=='500') {
+					if (res.data.code == '500') {
 						_this.userDialog = false;
 						_this.getDataFromApi();
 						_this.snackbarText = res.data.message;
@@ -340,16 +340,16 @@
 					roleList: _this.checkRoles
 				}).then(res => {
 					Loading.hide();
-					if(res.data.code == '200') {
+					if (res.data.code == '200') {
 						_this.roleDialog = false;
 						_this.getDataFromApi();
 						_this.snackbar = true;
 						_this.snackbarText = '分配角色成功';
-					} 
-					
+					}
+
 				})
 			},
-			
+
 			/**
 			 * 修改密码
 			 */
@@ -361,18 +361,17 @@
 			},
 			editPsd(user) {
 				let _this = this;
-				console.log(_this.user);
 				Loading.show();
-				_this.$api.user.savePassword(_this.user).then(res=>{
+				_this.$api.user.savePassword(_this.user).then(res => {
 					Loading.hide();
-					if(res.data.code == '200') {
+					if (res.data.code == '200') {
 						_this.dialogPassword = false;
 						_this.getDataFromApi();
 						_this.snackbar = true;
 						_this.snackbarText = '修改密码成功';
 					}
-					
-					if(res.data.code == '500') {
+
+					if (res.data.code == '500') {
 						_this.dialogPassword = false;
 						_this.getDataFromApi();
 						_this.snackbar = true;
@@ -383,4 +382,3 @@
 		},
 	}
 </script>
- 
